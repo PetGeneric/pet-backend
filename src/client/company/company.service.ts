@@ -1,32 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Company } from '../../../libs/database/src/typeorm/entities/company.entity';
-
+import { Repository, DeepPartial, Equal } from "typeorm";
+import { Company } from "../../database/src/typeorm/entities/company.entity";
 @Injectable()
 export class CompanyService {
   constructor(
+    @InjectRepository(Company)
+    private companyRepository: Repository<Company>
 
   ){}
-  create(createCompanyDto: CreateCompanyDto) {
-    return 'This action adds a new company';
+  async create(data: DeepPartial<Company>): Promise<Company> {
+    const company =  this.companyRepository.create(data);
+    return await this.companyRepository.save(company);
   }
 
-  findAll() {
-    return `This action returns all company`;
+  async findAll(): Promise<Company[]> {
+     return await this.companyRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  async findOne(id: string):Promise<Company> {
+    return await this.companyRepository.findOne({
+      where: {
+        id: Equal(id)
+      }
+    });
   }
 
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return `This action updates a #${id} company`;
+  async update(id: string, data: DeepPartial<Company>) {
+    const companyToUpdate = await this.findOne(id);
+
+    this.companyRepository.merge( companyToUpdate, data);
+
+    return await this.companyRepository.save(companyToUpdate);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  async remove(id: string) {
+    const companyToDelete = await this.findOne(id);
+
+    return await this.companyRepository.softRemove(companyToDelete);
   }
 }

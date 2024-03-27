@@ -1,9 +1,14 @@
-import { IsEmail, IsNumber, IsString } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateCompanyDto {
-  @IsString()
+  @IsString({  message: 'A empresa deve ter um nome'})
   name: string;
 
+  @IsOptional()
+  @IsString()
+  description: string;
+
+  @IsOptional()
   @IsNumber()
   phone: string;
 
