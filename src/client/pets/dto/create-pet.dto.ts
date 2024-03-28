@@ -1,24 +1,35 @@
-import { IsDate, IsDefined, IsNumber, IsString } from 'class-validator';
+import { IsDate, IsDefined, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
+import { Species } from "../../../database/src/typeorm/entities/specie.entity";
+import { Costumer } from "../../../database/src/typeorm/entities/costumer.entity";
+import { Company } from "../../../database/src/typeorm/entities/company.entity";
 
 export class CreatePetDto {
-  @IsString()
+  @IsString({ message: 'Defina um nome'})
   name: string;
 
-  @IsString()
+  @IsOptional()
+  @IsString({ message: 'Defina uma raça'})
   breed: string;
 
-  @IsDefined({ message: 'Defina uma espécie' })
-  species_id: string;
-
-  @IsNumber()
+  @IsOptional()
+  @IsNumber({}, { message: 'Idade inválida' })
   age: number;
 
-  @IsDefined({ message: 'Defina um tutor' })
-  tutor_id: string;
-
-  @IsDefined({ message: 'Defina uma empresa' })
-  company_id: string;
-
+  @IsOptional()
   @IsDate()
-  birthdayDate?: Date;
+  birthdayDate: Date;
+
+  @Type(() => Species)
+  species: Species;
+
+  @IsDefined({ message: 'Selecione um tutor' })
+  @Type(() => Costumer)
+  @ValidateNested({ each: true })
+  tutor: Costumer[];
+
+  @IsDefined({ message: 'Selecione uma empresa' })
+  @Type(() => Company)
+  company: Company
+
 }

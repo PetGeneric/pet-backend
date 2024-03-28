@@ -1,26 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
+import { InjectRepository } from "@nestjs/typeorm";
+import { Schedule } from "../../database/src/typeorm/entities/schedules.entity";
+import { DeepPartial, Equal, Repository } from "typeorm";
 
 @Injectable()
 export class SchedulesService {
-  create(createScheduleDto: CreateScheduleDto) {
-    return 'This action adds a new schedule';
+
+  constructor(
+    @InjectRepository(Schedule)
+    private scheduleRepository: Repository<Schedule>
+  ) {
+  }
+  create(data: DeepPartial<Schedule>) {
+    const schedule = this.scheduleRepository.create(data);
+    return this.scheduleRepository.save(schedule);
   }
 
-  findAll() {
-    return `This action returns all schedules`;
+  async findAll() {
+    return await this.scheduleRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} schedule`;
+  async findOne(id: string) {
+    return await this.scheduleRepository.findOne({
+      where: {
+        id: Equal(id)
+      }
+    });
   }
 
-  update(id: number, updateScheduleDto: UpdateScheduleDto) {
-    return `This action updates a #${id} schedule`;
+  async update(id: string,data: DeepPartial<Schedule>) {
+    const scheduleToUpdate = await this.findOne(id);
+    this.scheduleRepository.merge(scheduleToUpdate, data);
+
+    return await this.scheduleRepository.save(scheduleToUpdate);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} schedule`;
+  async remove(id: string) {
+    const scheduleToDelete = await this.findOne(id);
+
+    return await this.scheduleRepository.softRemove(scheduleToDelete);
   }
 }
