@@ -3,7 +3,7 @@ import { CostumerService } from './costumer.service';
 import { CreateCostumerDto } from './dto/create-costumer.dto';
 import { UpdateCostumerDto } from './dto/update-costumer.dto';
 
-@Controller('costumer')
+@Controller('client/costumer')
 export class CostumerController {
   constructor(private readonly costumerService: CostumerService) {}
 
@@ -19,16 +19,16 @@ export class CostumerController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.costumerService.findOne(+id);
+    return this.costumerService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCostumerDto: UpdateCostumerDto) {
-    return this.costumerService.update(+id, updateCostumerDto);
+    return this.costumerService.update(id, updateCostumerDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.costumerService.remove(+id);
+    return this.costumerService.remove(id);
   }
 }

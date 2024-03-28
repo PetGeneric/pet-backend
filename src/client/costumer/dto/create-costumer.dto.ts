@@ -1,7 +1,10 @@
-import { IsDefined, IsEmail, IsString } from 'class-validator';
+import { IsDefined, IsEmail, IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { Company } from "../../../database/src/typeorm/entities/company.entity";
+import { Pet } from "../../../database/src/typeorm/entities/pet.entity";
 
 export class CreateCostumerDto {
-  @IsString()
+  @IsString({ message: 'Nome inválido'})
   name: string;
 
   @IsString()
@@ -11,5 +14,12 @@ export class CreateCostumerDto {
   email: string;
 
   @IsDefined({ message: 'Selecione uma empresa' })
-  company_id: string;
+  @Type(() => Company)
+  company: Company;
+
+  @IsOptional()
+  @Type(() => Pet)
+  pets: Pet[];
+
+
 }
