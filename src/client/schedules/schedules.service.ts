@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateScheduleDto } from './dto/create-schedule.dto';
-import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Schedule } from '../../database/src/typeorm/entities/schedules.entity';
 import { DeepPartial, Equal, Repository } from 'typeorm';
