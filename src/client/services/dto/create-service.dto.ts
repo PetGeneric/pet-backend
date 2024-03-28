@@ -1,15 +1,16 @@
-import { IsNumber, IsString, IsUUID } from "class-validator";
+import {  IsNumberString, IsOptional, IsString } from "class-validator";
 
 export class CreateServiceDto {
-    @IsString()
-    name: string;
+  @IsString({ message: 'O serviço deve ter um nome' })
+  name: string;
 
-    @IsString()
-    description: string;
+  @IsOptional()
+  @IsString()
+  description: string;
 
-    @IsNumber()
-    price: number;
-
-    @IsUUID()
-    schedule_id: string;
+  @IsNumberString(
+    { no_symbols: true },
+    { message: 'O preço deve ser um número' },
+  )
+  price: string;
 }

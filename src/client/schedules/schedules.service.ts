@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
-import { InjectRepository } from "@nestjs/typeorm";
-import { Schedule } from "../../database/src/typeorm/entities/schedules.entity";
-import { DeepPartial, Equal, Repository } from "typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Schedule } from '../../database/src/typeorm/entities/schedules.entity';
+import { DeepPartial, Equal, Repository } from 'typeorm';
 
 @Injectable()
 export class SchedulesService {
-
   constructor(
     @InjectRepository(Schedule)
-    private scheduleRepository: Repository<Schedule>
-  ) {
-  }
+    private scheduleRepository: Repository<Schedule>,
+  ) {}
   create(data: DeepPartial<Schedule>) {
     const schedule = this.scheduleRepository.create(data);
+
     return this.scheduleRepository.save(schedule);
   }
 
@@ -25,12 +24,12 @@ export class SchedulesService {
   async findOne(id: string) {
     return await this.scheduleRepository.findOne({
       where: {
-        id: Equal(id)
-      }
+        id: Equal(id),
+      },
     });
   }
 
-  async update(id: string,data: DeepPartial<Schedule>) {
+  async update(id: string, data: DeepPartial<Schedule>) {
     const scheduleToUpdate = await this.findOne(id);
     this.scheduleRepository.merge(scheduleToUpdate, data);
 

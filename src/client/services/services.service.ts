@@ -1,26 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
+import { Service } from '../../database/src/typeorm/entities/service.entity';
+import { Equal, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ServicesService {
+  constructor(
+    @InjectRepository(Service)
+    private serviceRepository: Repository<Service>,
+  ) {}
   create(createServiceDto: CreateServiceDto) {
-    return 'This action adds a new service';
+    const service = this.serviceRepository.create(createServiceDto);
+
+    return this.serviceRepository.save(service);
   }
 
-  findAll() {
-    return `This action returns all services`;
+  async findAll() {
+    return await this.serviceRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} service`;
+  async findOne(id: string) {
+    return await this.serviceRepository.findOne({
+      where: {
+        id: Equal(id),
+      },
+    });
   }
 
-  update(id: number, updateServiceDto: UpdateServiceDto) {
-    return `This action updates a #${id} service`;
+  async update(id: string, updateServiceDto: UpdateServiceDto) {
+    const serviceToUpdate = await this.findOne(id);
+
+    this.serviceRepository.merge(serviceToUpdate, updateServiceDto);
+
+    return await this.serviceRepository.save(serviceToUpdate);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} service`;
+  async remove(id: string) {
+    const serviceToRemove = await this.findOne(id);
+
+    return await this.serviceRepository.softRemove(serviceToRemove);
   }
 }
