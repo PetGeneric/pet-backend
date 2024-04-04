@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { ScheduleStatus } from '../../../../../src/client/schedules/schedule-status.enum';
+import { ScheduleStatus } from "../../../../client/schedules/schedule-status.enum";
 
 export class CreateSchedulesTable1711571471778 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
