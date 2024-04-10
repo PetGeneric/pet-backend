@@ -3,15 +3,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn, JoinTable,
+  Index,
+  JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
+  UpdateDateColumn,
+} from 'typeorm';
 import type { Company } from './company.entity';
 import type { Roles } from './roles.entity';
 
+@Index('users_pkey', ['id'], { unique: true })
+@Index('users_email_key', ['email'], { unique: true })
 @Entity('users')
 export class Users {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
@@ -26,7 +30,7 @@ export class Users {
   @Column('character varying', { name: 'password' })
   password: string;
 
-  @ManyToMany<Roles>('Users', (roles) => roles.users)
+  @ManyToMany<Roles>('Roles', (roles) => roles.users)
   @JoinTable({
     name: 'user_role_reference',
     joinColumn: {

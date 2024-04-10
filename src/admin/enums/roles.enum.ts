@@ -1,4 +1,3 @@
-
 export enum RolesReference {
   ADMIN = 'admin',
   EMPLOYEE = 'employee',

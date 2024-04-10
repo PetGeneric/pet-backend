@@ -1,10 +1,12 @@
 import {
   Column,
-  Entity, Index,
+  Entity,
+  Index,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn, RelationId
-} from "typeorm";
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import type { Users } from './users.entity';
 import type { Roles } from './roles.entity';
 
