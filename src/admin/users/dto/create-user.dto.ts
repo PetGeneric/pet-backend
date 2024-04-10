@@ -1,8 +1,8 @@
 import {
+  IsDefined,
   IsEmail,
   IsString,
   IsStrongPassword,
-  minLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Company } from '../../../database/src/typeorm/entities/company.entity';
@@ -31,7 +31,7 @@ export class CreateUserDto {
   )
   password: string;
 
-  @IsString({ message: 'O campo role não pode ser vazio' })
+  @IsDefined({ message: 'Deve ser informado ao menos um perfil'})
   roles: Roles[];
 
   @Type(() => Company)

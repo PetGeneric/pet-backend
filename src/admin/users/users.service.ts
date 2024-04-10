@@ -17,10 +17,6 @@ export class UsersService {
     return await this.usersRepository.manager.transaction(async (manager) => {
       const user = this.usersRepository.create(data);
 
-      if (!data.roles || data.roles.length === 0) {
-        throw new Error('User must have at least one role.');
-      }
-
       const existingRoles = await manager
         .createQueryBuilder(Users, 'user')
         .leftJoinAndSelect('user.roles', 'role')
