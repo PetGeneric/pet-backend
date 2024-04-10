@@ -18,7 +18,7 @@ const config: TypeOrmModuleOptions = {
   entities: [
     join(__dirname, 'src/database/src/typeorm/entities/*.entity{.ts,.js}'),
   ],
-  migrations: ['dist/src/database/src/typeorm/migrations/*{.ts, .js}'],
+  migrations: ['dist/database/src/typeorm/migrations/*{.ts,.js}'],
 };
 
 export default registerAs('typeorm', () => config);
