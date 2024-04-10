@@ -7,11 +7,11 @@ import {
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
-import type { Costumer } from "./costumer.entity";
-import type { Pet } from "./pet.entity";
-import type { Users } from "./users.entity";
+  UpdateDateColumn,
+} from 'typeorm';
+import type { Costumer } from './costumer.entity';
+import type { Pet } from './pet.entity';
+import type { Users } from './users.entity';
 
 @Index('company_pk', ['id'], { unique: true })
 @Index('company_name_uindex', ['name'], { unique: true })
@@ -39,26 +39,17 @@ export class Company {
   @Column('integer', { name: 'status', default: () => `${Status.TRIAL}` })
   status: Status;
 
-  @OneToMany<Costumer>(
-    'Costumer',
-    (costumer) => costumer.company,
-    {
-      persistence: false,
-    })
+  @OneToMany<Costumer>('Costumer', (costumer) => costumer.company, {
+    persistence: false,
+  })
   costumers: Costumer[];
 
-  @OneToMany<Users>(
-    'Users',
-    (users) => users.company,
-    {
-      persistence: false,
-    })
+  @OneToMany<Users>('Users', (users) => users.company, {
+    persistence: false,
+  })
   users: Users[];
 
-  @OneToMany<Pet>(
-    'Pet',
-    (pet) => pet.company,
-    {persistence: false})
+  @OneToMany<Pet>('Pet', (pet) => pet.company, { persistence: false })
   pets: Pet[];
 
   @CreateDateColumn({

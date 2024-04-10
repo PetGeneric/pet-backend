@@ -4,14 +4,15 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  JoinColumn, JoinTable,
+  JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
-import type { Company } from "./company.entity";
-import type { Pet } from "./pet.entity";
+  UpdateDateColumn,
+} from 'typeorm';
+import type { Company } from './company.entity';
+import type { Pet } from './pet.entity';
 
 @Index('costumer_pk', ['id'], { unique: true })
 @Index('costumer_email_uindex', ['email'], { unique: true })
@@ -33,20 +34,20 @@ export class Costumer {
   @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
   company: Company;
 
-  @Column({ name: 'company_id'})
+  @Column({ name: 'company_id' })
   company_id: string;
 
   @ManyToMany<Pet>('Pet', (pet) => pet.tutor)
   @JoinTable({
     name: 'costumers_pets',
-        joinColumn: {
-          name: 'costumer_id',
-          referencedColumnName: 'id',
-        },
-        inverseJoinColumn: {
-          name: 'pet_id',
-          referencedColumnName: 'id',
-        },
+    joinColumn: {
+      name: 'costumer_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'pet_id',
+      referencedColumnName: 'id',
+    },
   })
   pets: Pet[];
 
@@ -59,10 +60,10 @@ export class Costumer {
   @UpdateDateColumn({
     name: 'updated_at',
     nullable: true,
-    onUpdate: 'CURRENT_TIMESTAMP'
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at', nullable:true })
-   deletedAt: Date
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }
