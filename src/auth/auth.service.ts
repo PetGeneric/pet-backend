@@ -42,8 +42,17 @@ export class AuthService {
         email: user.email,
         role: user.roles,
         company: user.companyId,
+        roles: user.roles,
       },
       token,
     };
+  }
+
+  async validateToken(token: string) {
+    try {
+      this.jwtService.verify(token);
+    } catch (error) {
+      throw new UnauthorizedException('Token inválido');
+    }
   }
 }
