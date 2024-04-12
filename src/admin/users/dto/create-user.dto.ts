@@ -1,4 +1,6 @@
 import {
+  ArrayMinSize,
+  ArrayUnique,
   IsDefined,
   IsEmail,
   IsString,
@@ -31,7 +33,11 @@ export class CreateUserDto {
   )
   password: string;
 
-  @IsDefined({ message: 'Deve ser informado ao menos um perfil'})
+  @IsDefined({ message: 'Deve ser informado ao menos um perfil' })
+  @ArrayMinSize(1, { message: 'Selecione pelo menos um perfil' })
+  @ArrayUnique((value: Roles) => value.id, {
+    message: 'Perfil já selecionado',
+  })
   roles: Roles[];
 
   @Type(() => Company)

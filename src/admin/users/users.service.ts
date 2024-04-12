@@ -17,21 +17,27 @@ export class UsersService {
     return await this.usersRepository.manager.transaction(async (manager) => {
       const user = this.usersRepository.create(data);
 
-      const existingRoles = await manager
-        .createQueryBuilder(Users, 'user')
-        .leftJoinAndSelect('user.roles', 'role')
-        .where('role.roleReference IN (:...roles)', {
-          roles: data.roles.map((r) => r.roleReference),
-        })
-        .getMany();
+      const userExists = await this.findByEmail(user.email);
 
-      user.roles = existingRoles.flatMap((user) => user.roles);
-
-      const savedUser = await manager.save(user);
-
-      if (data.roles) {
-        await this.createRoleReferences(data.roles, savedUser.id, manager);
+      if (userExists) {
+        throw new BadRequestException('Usuário já cadastrado');
       }
+
+      user.password = await bcrypt.hash(user.password, 10);
+
+      const insertedUser = await manager.insert(Users, user)
+
+      if (data.roles && data.roles.length > 0) {
+        await this.createRoleReferences(
+          data.roles,
+          insertedUser.identifiers[0].id,
+          manager,
+        );
+      } else {
+        throw new BadRequestException('Roles not found');
+      }
+
+      const savedUser = await manager.save(Users, user);
 
       return savedUser;
     });
@@ -49,12 +55,12 @@ export class UsersService {
         },
       });
       if (!roleReference) {
-        throw new BadRequestException(`Role ${role} not found`);
+        throw new BadRequestException(`Role ${role.id} not found`);
       }
 
       const userRoleReference = manager.create(UserRoleReference, {
         userId,
-        roleId: roleReference.id,
+        roleId: role.id,
       });
 
       await manager.save(userRoleReference);
