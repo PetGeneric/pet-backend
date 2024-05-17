@@ -7,6 +7,8 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UsersService } from '../admin/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Users } from 'src/database/src/typeorm/entities/users.entity';
+import { Roles } from 'src/database/src/typeorm/entities/roles.entity';
 
 @Injectable()
 export class AuthService {
@@ -29,20 +31,17 @@ export class AuthService {
       throw new UnauthorizedException('Senha inválida');
     }
 
-    const token = this.jwtService.sign({
-      id: user.id,
-      email: user.email,
-      role: user.roles,
-      company: user.company,
-    });
+    const userRoles = await this.userService.gerUserRoles(user.id);
+
+    const token = await this.generateJwtToken(user, userRoles);
 
     return {
       user: {
         id: user.id,
+        name: user.name,
         email: user.email,
-        role: user.roles,
-        company: user.companyId,
-        roles: user.roles,
+        roles: userRoles,
+        company: user.company,
       },
       token,
     };
@@ -54,5 +53,15 @@ export class AuthService {
     } catch (error) {
       throw new UnauthorizedException('Token inválido');
     }
+  }
+
+  async generateJwtToken(user: Users, userRoles: Roles[]): Promise<string>{
+    return this.jwtService.sign({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      roles: userRoles,
+      company: user.company,
+    });
   }
 }

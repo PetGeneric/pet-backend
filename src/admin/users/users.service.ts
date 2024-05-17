@@ -37,9 +37,7 @@ export class UsersService {
         throw new BadRequestException('Roles not found');
       }
 
-      const savedUser = await manager.save(Users, user);
-
-      return savedUser;
+      return await manager.save(Users, user);
     });
   }
 
@@ -141,16 +139,39 @@ export class UsersService {
       where: {
         email: Equal(email),
       },
+      relations:{
+        company: true
+      }
     });
   }
 
   async findOne(id: string) {
-    return await this.usersRepository.findOne({
+    return await this.usersRepository.findOneOrFail({
       where: {
         id: Equal(id),
       },
       relations: ['roles'],
     });
+  }
+
+  async gerUserRoles(id: string) {
+    return await this.usersRepository.manager.transaction(async (manager) => {
+      const user = await manager.findOne(Users, {
+        where: {
+          id: Equal(id),
+        },
+        relations: {
+          roles: true,
+        },
+      });
+
+      if (!user) {
+        throw new BadRequestException('User not found');
+      }
+
+      return user.roles;
+    });
+
   }
 
   async remove(id: string) {

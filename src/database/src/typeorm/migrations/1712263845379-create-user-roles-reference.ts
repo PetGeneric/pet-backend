@@ -32,5 +32,9 @@ export class CreateUserRolesReference1712263845379
          `);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
+      DROP TABLE "user_role_reference"
+      `);
+  }
 }
