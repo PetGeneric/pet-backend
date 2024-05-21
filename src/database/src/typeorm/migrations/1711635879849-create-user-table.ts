@@ -8,7 +8,7 @@ export class CreateUserTable1711635879849 implements MigrationInterface {
                 name VARCHAR(255) NOT NULL,
                 email VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                role user_role NOT NULL,
+                role VARCHAR(255) NOT NULL,
                 is_active BOOLEAN DEFAULT FALSE,
                 company_id UUID NOT NULL,
                 created_at TIMESTAMP DEFAULT now(),
