@@ -38,10 +38,10 @@ jobs:
     needs: build
     steps:
       - name: Deploy
-        uses: railwayapp/action@v1
+        uses: bervProject/railway-deploy@main
         with:
-          command: deploy
-          args: --env ${{ env.stage }} --domain ${{ env.domain }}
+          service: pet-backend
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}        
 
   deploy-main-succefull:
     runs-on: ubuntu-latest
@@ -57,5 +57,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: https://discord.com/api/webhooks/${{ secrets.WEBHOOK_ID }}/${{ secrets.WEBHOOK_TOKEN }}
         uses: Ilshidur/action-discord@master
+        with:
+          args: 'Aplicação atualizada: **${{ env.stage }}**-(${{ env.REF }}-${{ github.sha }}). O **servidor** do ambiente https://${{ env.domain }}/ foi  atualizado.'
 
 
