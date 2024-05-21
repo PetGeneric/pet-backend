@@ -31,7 +31,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: nixpacks build
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,12 +52,12 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Aplicação atualizada: **${{ env.stage }}**-(${{ env.REF }}-${{ github.sha }}). O **servidor** do ambiente https://${{ env.domain }}/ foi atualizado.'
+          args: 'Aplicação atualizada: **${{ env.stage }}**. O **servidor** do ambiente https://${{ env.domain }}/ foi atualizado.'
       - name: Enviando mensagem no Discord
         env:
           DISCORD_WEBHOOK: https://discord.com/api/webhooks/${{ secrets.WEBHOOK_ID }}/${{ secrets.WEBHOOK_TOKEN }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Aplicação atualizada: **${{ env.stage }}**-(${{ env.REF }}-${{ github.sha }}). O **servidor** do ambiente https://${{ env.domain }}/ foi  atualizado.'
+          args: 'Aplicação atualizada: **${{ env.stage }}**. O **servidor** do ambiente https://${{ env.domain }}/ foi  atualizado.'
 
 
