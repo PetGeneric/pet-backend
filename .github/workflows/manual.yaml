@@ -54,11 +54,5 @@ jobs:
         uses: Ilshidur/action-discord@master
         with:
           args: 'Aplicação atualizada: **${{ env.stage }}**. O **servidor** do ambiente https://${{ env.domain }}/ foi atualizado.'
-      - name: Enviando mensagem no Discord
-        env:
-          DISCORD_WEBHOOK: https://discord.com/api/webhooks/${{ secrets.WEBHOOK_ID }}/${{ secrets.WEBHOOK_TOKEN }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: 'Aplicação atualizada: **${{ env.stage }}**. O **servidor** do ambiente https://${{ env.domain }}/ foi  atualizado.'
 
 
