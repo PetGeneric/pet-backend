@@ -9,6 +9,7 @@ on:
       - 'bugfix/**'
       - 'hotfix/**'
       - 'refactor/**'
+      - master
 
 env:
   node-version: 16.x
@@ -27,23 +28,45 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
 
+      - name: Show Current Directory
+        run: pwd
+
+      - name: List Directory Contents
+        run: ls -la
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy
-        uses: bervProject/railway-deploy@main
-        with:
-          service: pet-backend
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  deploy-main-succefull:
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --yes --env ${{ env.stage }}
+
+  deploy-main-successful:
     runs-on: ubuntu-latest
     needs: [deploy]
     steps:
-      - name: Enviando notificação Discord
+      - name: Send Discord Notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Aplicação atualizada: **${{ env.stage }}**. O **servidor** do ambiente https://${{ env.domain }}/ foi atualizado.'
+          args: 'Application updated: **${{ env.stage }}**. The **server** at https://${{ env.domain }}/ has been updated.'
