@@ -3,7 +3,6 @@ builder = "nixpacks"
 buildCommand = "echo building!"
 
 [deploy]
-startCommand = "npm start"
 healthcheckPath = "/"
 healthcheckTimeout = 100
 restartPolicyType = "never"
