@@ -31,7 +31,9 @@ jobs:
         run: npm install
 
       - name: Install Railway
-         run: npm i -g @railway/cli
+        run: npm install -g @railway/cli
+
+     
 
   deploy:
     runs-on: ubuntu-latest
