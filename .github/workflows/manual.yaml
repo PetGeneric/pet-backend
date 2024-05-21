@@ -1,14 +1,9 @@
 name: Develop
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - develop
-      - 'feature/**'
-      - 'bugfix/**'
-      - 'hotfix/**'
-      - 'refactor/**'
+      - main
 
 env:
   node-version: 16.x
