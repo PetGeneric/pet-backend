@@ -55,6 +55,12 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      - name: Show Current Directory in Deploy
+        run: pwd
+
+      - name: List Directory Contents in Deploy
+        run: ls -la
+
       - name: Deploy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
