@@ -15,7 +15,7 @@ import { RolesGuard } from './core/guards/roles.guard';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: RolesGuard, 
     },
   ],
   imports: [
