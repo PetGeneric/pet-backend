@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Roles } from '../../database/src/typeorm/entities/roles.entity';
+import { Roles } from '../../database/src/entities/roles.entity';
 import { ROLES_GUARD_METADATA_KEY } from '../decorators/role-guard.decorator';
 import { Request } from 'express';
 import { jwtConstants } from '../../auth/constants/constants';

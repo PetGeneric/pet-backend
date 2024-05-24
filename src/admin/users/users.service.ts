@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Users } from '../../database/src/typeorm/entities/users.entity';
+import { Users } from '../../database/src/entities/users.entity';
 import { DeepPartial, EntityManager, Equal, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Roles } from 'src/database/src/typeorm/entities/roles.entity';
-import { UserRoleReference } from 'src/database/src/typeorm/entities/user-role-reference.entity';
+import { Roles } from 'src/database/src/entities/roles.entity';
+import { UserRoleReference } from 'src/database/src/entities/user-role-reference.entity';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +25,7 @@ export class UsersService {
 
       user.password = await bcrypt.hash(user.password, 10);
 
-      const insertedUser = await manager.insert(Users, user)
+      const insertedUser = await manager.insert(Users, user);
 
       if (data.roles && data.roles.length > 0) {
         await this.createRoleReferences(
@@ -139,9 +139,9 @@ export class UsersService {
       where: {
         email: Equal(email),
       },
-      relations:{
-        company: true
-      }
+      relations: {
+        company: true,
+      },
     });
   }
 
@@ -171,7 +171,6 @@ export class UsersService {
 
       return user.roles;
     });
-
   }
 
   async remove(id: string) {

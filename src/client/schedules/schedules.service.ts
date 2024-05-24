@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Schedule } from '../../database/src/typeorm/entities/schedules.entity';
+import { Schedule } from '../../database/src/entities/schedules.entity';
 import { DeepPartial, Equal, Repository } from 'typeorm';
 
 @Injectable()
