@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Status } from 'src/core/status.enum';
 import { Company } from 'src/database/src/entities/company.entity';
 import { Repository, DeepPartial, Equal } from 'typeorm';
 @Injectable()
