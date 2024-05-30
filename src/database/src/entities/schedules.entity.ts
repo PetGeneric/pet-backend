@@ -3,14 +3,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index, JoinColumn,
-   ManyToOne,
+  Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
+  UpdateDateColumn,
+} from 'typeorm';
 import type { Pet } from './pet.entity';
-import type { Service } from "./service.entity";
-import { ScheduleStatus } from "../../../../client/schedules/schedule-status.enum";
+import type { Service } from './service.entity';
+import { ScheduleStatus } from '../../../client/schedules/schedule-status.enum';
 
 @Index('schedule_pk', ['id'], { unique: true })
 @Index('schedule_id_uindex', ['id'], { unique: true })

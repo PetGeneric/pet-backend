@@ -7,8 +7,8 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UsersService } from '../admin/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Users } from 'src/database/src/typeorm/entities/users.entity';
-import { Roles } from 'src/database/src/typeorm/entities/roles.entity';
+import { Users } from 'src/database/src/entities/users.entity';
+import { Roles } from 'src/database/src/entities/roles.entity';
 
 @Injectable()
 export class AuthService {
@@ -55,7 +55,7 @@ export class AuthService {
     }
   }
 
-  async generateJwtToken(user: Users, userRoles: Roles[]): Promise<string>{
+  async generateJwtToken(user: Users, userRoles: Roles[]): Promise<string> {
     return this.jwtService.sign({
       id: user.id,
       name: user.name,

@@ -1,15 +1,22 @@
-import { IsDate, IsDefined, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
-import { Species } from "../../../database/src/typeorm/entities/specie.entity";
-import { Costumer } from "../../../database/src/typeorm/entities/costumer.entity";
-import { Company } from "../../../database/src/typeorm/entities/company.entity";
+import {
+  IsDate,
+  IsDefined,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { Species } from '../../../database/src/entities/specie.entity';
+import { Costumer } from '../../../database/src/entities/costumer.entity';
+import { Company } from '../../../database/src/entities/company.entity';
 
 export class CreatePetDto {
-  @IsString({ message: 'Defina um nome'})
+  @IsString({ message: 'Defina um nome' })
   name: string;
 
   @IsOptional()
-  @IsString({ message: 'Defina uma raça'})
+  @IsString({ message: 'Defina uma raça' })
   breed: string;
 
   @IsOptional()
@@ -30,6 +37,5 @@ export class CreatePetDto {
 
   @IsDefined({ message: 'Selecione uma empresa' })
   @Type(() => Company)
-  company: Company
-
+  company: Company;
 }

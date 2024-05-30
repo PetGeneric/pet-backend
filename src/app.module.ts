@@ -18,7 +18,7 @@ import { DiscordNotificationService } from './discord-notification/discord-notif
     AppService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: RolesGuard, 
     },
     {
       provide: APP_INTERCEPTOR,
