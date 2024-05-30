@@ -36,7 +36,7 @@ export class Company {
   @Column({ type: 'character varying', length: 255 })
   email: string;
 
-  @Column('integer', { name: 'status', default: () => `${Status.TRIAL}` })
+  @Column('character varying', { name: 'status', default: () => `${Status.TRIAL}` })
   status: Status;
 
   @OneToMany<Costumer>('Costumer', (costumer) => costumer.company, {

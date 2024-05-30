@@ -18,12 +18,7 @@ export class CreateEmployeeTable1711574161256 implements MigrationInterface {
 
         await queryRunner.query(`CREATE UNIQUE INDEX "employee_pk" ON "employee"("id")`);
 
-        await queryRunner.query(`
-            ALTER TABLE "employee"
-            ADD CONSTRAINT "fk_employee_user_id"
-            FOREIGN KEY ("user_id")
-            REFERENCES "users"("id")
-        `)
+   
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

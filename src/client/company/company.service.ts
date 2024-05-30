@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Status } from 'src/core/status.enum';
+import { Company } from 'src/database/src/entities/company.entity';
 import { Repository, DeepPartial, Equal } from 'typeorm';
-import { Company } from '../../database/src/entities/company.entity';
 @Injectable()
 export class CompanyService {
   constructor(
@@ -10,6 +11,8 @@ export class CompanyService {
   ) {}
   async create(data: DeepPartial<Company>): Promise<Company> {
     const company = this.companyRepository.create(data);
+
+    company.status = Status.TRIAL;
     return await this.companyRepository.save(company);
   }
 

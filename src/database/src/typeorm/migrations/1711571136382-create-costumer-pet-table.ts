@@ -14,22 +14,22 @@ export class CreateCostumerPetTable1711571136382 implements MigrationInterface {
     `);
 
     await queryRunner.query(
-      `CREATE UNIQUE INDEX "costumer_pets_pk" ON "costumer_pets"("id")`,
+      `CREATE UNIQUE INDEX "costumer_pets_pk" ON "costumers_pets"("id")`,
     );
 
     await queryRunner.query(
-      `CREATE UNIQUE INDEX "costumer_pets_id_uindex" ON "costumer_pets"("id")`,
+      `CREATE UNIQUE INDEX "costumer_pets_id_uindex" ON "costumers_pets"("id")`,
     );
 
     await queryRunner.query(`
-            ALTER TABLE "costumer_pets" ADD CONSTRAINT "fk_costumer_id"
+            ALTER TABLE "costumers_pets" ADD CONSTRAINT "fk_costumer_id"
             FOREIGN KEY ("costumer_id")
             REFERENCES "costumer"("id")
             ON DELETE CASCADE
         `);
 
     await queryRunner.query(`
-            ALTER TABLE "costumer_pets" ADD CONSTRAINT "fk_pet_id"
+            ALTER TABLE "costumers_pets" ADD CONSTRAINT "fk_pet_id"
             FOREIGN KEY ("pet_id")
             REFERENCES "pets"("id")
             ON DELETE CASCADE
@@ -38,10 +38,10 @@ export class CreateCostumerPetTable1711571136382 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "costumer_pets" DROP CONSTRAINT "fk_pet_id"`,
+      `ALTER TABLE "costumers_pets" DROP CONSTRAINT "fk_pet_id"`,
     );
     await queryRunner.query(
-      `ALTER TABLE "costumer_pets" DROP CONSTRAINT "fk_costumer_id"`,
+      `ALTER TABLE "costumers_pets" DROP CONSTRAINT "fk_costumer_id"`,
     );
     await queryRunner.query(`DROP INDEX "costumer_pets_id_uindex"`);
     await queryRunner.query(`DROP INDEX "costumer_pets_pk"`);
