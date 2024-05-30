@@ -8,7 +8,9 @@ import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { RolesGuard } from './core/guards/roles.guard';
-import { LoggingInterceptor } from './core/interceptors/logging.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { DiscordNotificationModule } from './discord-notification/discord-notification.module';
+import { DiscordNotificationService } from './discord-notification/discord-notification.service';
 
 @Module({
   controllers: [AppController],
@@ -21,8 +23,9 @@ import { LoggingInterceptor } from './core/interceptors/logging.interceptor';
     {
       provide: APP_INTERCEPTOR,
       scope: Scope.REQUEST,
-      useClass: LoggingInterceptor,
+      useClass: ErrorInterceptor,
     },
+    DiscordNotificationService
   ],
   imports: [
     ClientModule,
@@ -30,6 +33,7 @@ import { LoggingInterceptor } from './core/interceptors/logging.interceptor';
     ConfigModule.forRoot({ isGlobal: true }),
     AdminModule,
     AuthModule,
+    DiscordNotificationModule,
   ],
 })
 export class AppModule {}
