@@ -8,6 +8,7 @@ import { EmployeeModule } from './employee/employee.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from 'src/database/database.module';
 import { SpeciesModule } from './species/species.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { SpeciesModule } from './species/species.module';
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     SpeciesModule,
-    CompanyModule
+    CompanyModule,
+    DashboardModule
 
   ],
 })

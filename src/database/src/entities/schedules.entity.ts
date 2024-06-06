@@ -12,6 +12,7 @@ import {
 import type { Pet } from './pet.entity';
 import type { Service } from './service.entity';
 import { ScheduleStatus } from '../../../client/schedules/schedule-status.enum';
+import type { Company } from './company.entity';
 
 @Index('schedule_pk', ['id'], { unique: true })
 @Index('schedule_id_uindex', ['id'], { unique: true })
@@ -29,24 +30,31 @@ export class Schedule {
   @Column('timestamp', {
     name: 'start_date',
   })
-  start_date: Date;
+  startDate: Date;
 
   @Column('timestamp', { name: 'end_date' })
-  end_date: Date;
+  endDate: Date;
 
   @ManyToOne<Pet>('Pet', (pet) => pet.schedules)
   @JoinColumn({ name: 'pet_id', referencedColumnName: 'id' })
   pet: Pet;
 
+  @ManyToOne<Company>('Company', (company) => company.schedules)
+  @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
+  company: Company;
+
+  @Column({ name: 'company_id' })
+  companyId: string;
+
   @Column('uuid', { name: 'pet_id' })
-  pet_id: string;
+  petId: string;
 
   @ManyToOne<Service>('Service', (service) => service.schedules)
   @JoinColumn({ name: 'service_id', referencedColumnName: 'id' })
   service: Service;
 
   @Column('uuid', { name: 'service_id' })
-  service_id: string;
+  serviceId: string;
 
   @CreateDateColumn({ name: 'created_at', default: () => 'now()' })
   createdAt: Date;

@@ -70,7 +70,7 @@ export class Pet {
   company: Company;
 
   @Column({ name: 'company_id' })
-  company_id: string;
+  companyId: string;
 
   @CreateDateColumn({
     name: 'created_at',

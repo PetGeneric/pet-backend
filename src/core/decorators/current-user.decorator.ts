@@ -1,8 +1,12 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
+import { Users } from 'src/database/src/entities/users.entity';
 
 export const CurrentUser = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
-    return request.user;
+  (data: unknown, context: ExecutionContext): Users => {
+    const req = context.switchToHttp().getRequest();
+
+    if (req.user as Users) return req.user;
+
+    throw new HttpException('Não autorizado', HttpStatus.UNAUTHORIZED);
   },
 );
