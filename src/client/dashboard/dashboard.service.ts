@@ -5,7 +5,7 @@ import { Pet } from 'src/database/src/entities/pet.entity';
 import { Schedule } from 'src/database/src/entities/schedules.entity';
 import { Repository } from 'typeorm';
 import { DashboardData } from './interface/dashboard-data.interface';
-import { Users } from 'src/database/src/entities/users.entity';
+import { User } from 'src/database/src/entities/user.entity';
 
 @Injectable()
 export class DashboardService {
@@ -18,7 +18,7 @@ export class DashboardService {
     private readonly petRepository: Repository<Pet>,
   ) {}
 
-  async getDashboardData(user: Users): Promise<DashboardData> {
+  async getDashboardData(user: User): Promise<DashboardData> {
     const totalCostumers = await this.costumerRepository.count({
       where: { companyId: user.companyId },
     });

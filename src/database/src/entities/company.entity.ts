@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import type { Costumer } from './costumer.entity';
 import type { Pet } from './pet.entity';
-import type { Users } from './users.entity';
+import type { User } from './User.entity';
 import { Schedule } from './schedules.entity';
 
 @Index('company_pk', ['id'], { unique: true })
@@ -48,10 +48,10 @@ export class Company {
   })
   costumers: Costumer[];
 
-  @OneToMany<Users>('Users', (users) => users.company, {
+  @OneToMany<User>('User', (User) => User.company, {
     persistence: false,
   })
-  users: Users[];
+  User: User[];
 
   @OneToMany<Pet>('Pet', (pet) => pet.company, { persistence: false })
   pets: Pet[];

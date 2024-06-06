@@ -7,19 +7,19 @@ import {
   Delete,
   Put, HttpException, HttpStatus,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RolesGuard } from '../../core/decorators/role-guard.decorator';
 import { RolesReference } from '../enums/roles.enum';
 
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@Controller('User')
+export class UserController {
+  constructor(private readonly UserService: UserService) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    const userCreated = await this.usersService.create(createUserDto);
+    const userCreated = await this.UserService.create(createUserDto);
     if (userCreated) {
       return {
         success: true,
@@ -36,21 +36,21 @@ export class UsersController {
   @RolesGuard(RolesReference.ADMIN, RolesReference.COMPANY_ADMIN)
   @Get()
   findAll() {
-    return this.usersService.findAll();
+    return this.UserService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.UserService.findOne(id);
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+    return this.UserService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+    return this.UserService.remove(id);
   }
 }

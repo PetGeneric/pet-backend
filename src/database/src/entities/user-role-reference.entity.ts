@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import type { Users } from './users.entity';
+import type { User } from './User.entity';
 import type { Roles } from './roles.entity';
 
 @Index('user_role_pk', ['id'], { unique: true })
@@ -24,11 +24,11 @@ export class UserRoleReference {
   @RelationId((self: UserRoleReference) => self.roles)
   roleId: string;
 
-  @ManyToOne<Users>('Users', (users) => users.roles)
+  @ManyToOne<User>('User', (User) => User.roles)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: Users;
+  user: User;
 
-  @ManyToOne<Roles>('Roles', (roles) => roles.users)
+  @ManyToOne<Roles>('Roles', (roles) => roles.User)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   roles: Roles;
 }
