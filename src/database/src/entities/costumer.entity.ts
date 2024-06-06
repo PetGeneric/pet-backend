@@ -35,7 +35,7 @@ export class Costumer {
   company: Company;
 
   @Column({ name: 'company_id' })
-  company_id: string;
+  companyId: string;
 
   @ManyToMany<Pet>('Pet', (pet) => pet.tutor)
   @JoinTable({
