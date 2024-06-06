@@ -4,6 +4,7 @@ import { Pet } from '../../database/src/entities/pet.entity';
 import { DeepPartial, EntityManager, Equal, Repository } from 'typeorm';
 import { Costumer } from '../../database/src/entities/costumer.entity';
 import { CostumerPets } from '../../database/src/entities/costumers-pets.entity';
+import { User } from 'src/database/src/entities/user.entity';
 
 @Injectable()
 export class PetsService {
@@ -23,27 +24,32 @@ export class PetsService {
     });
   }
 
-  async findAll() {
-    return await this.petRepository.find();
-  }
-
-  async findOne(id: string) {
-    return await this.petRepository.findOne({
+  async findAll(user: User) {
+    return await this.petRepository.find({
       where: {
-        id: Equal(id),
+        companyId: Equal(user.companyId),
       },
     });
   }
 
-  async update(id: string, data: DeepPartial<Pet>) {
-    const petToUpdate = await this.findOne(id);
+  async findOne(id: string, user: User) {
+    return await this.petRepository.findOne({
+      where: {
+        id: Equal(id),
+        companyId: Equal(user.companyId),
+      },
+    });
+  }
+
+  async update(id: string, data: DeepPartial<Pet>, user: User) {
+    const petToUpdate = await this.findOne(id, user);
     this.petRepository.merge(petToUpdate, data);
 
     return await this.petRepository.save(petToUpdate);
   }
 
-  async remove(id: string) {
-    const petToDelete = await this.findOne(id);
+  async remove(id: string, user: User) {
+    const petToDelete = await this.findOne(id, user);
 
     return await this.petRepository.softRemove(petToDelete);
   }

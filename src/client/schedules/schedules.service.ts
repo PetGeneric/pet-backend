@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Schedule } from '../../database/src/entities/schedules.entity';
 import { DeepPartial, Equal, Repository } from 'typeorm';
+import { User } from 'src/database/src/entities/user.entity';
 
 @Injectable()
 export class SchedulesService {
@@ -15,27 +16,32 @@ export class SchedulesService {
     return this.scheduleRepository.save(schedule);
   }
 
-  async findAll() {
-    return await this.scheduleRepository.find();
+  async findAll(user: User) {
+    return await this.scheduleRepository.find({
+      where: {
+        companyId: Equal(user.companyId),
+      }
+    });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, user: User) {
     return await this.scheduleRepository.findOne({
       where: {
         id: Equal(id),
+        companyId: Equal(user.companyId),
       },
     });
   }
 
-  async update(id: string, data: DeepPartial<Schedule>) {
-    const scheduleToUpdate = await this.findOne(id);
+  async update(id: string, data: DeepPartial<Schedule>, user:User) {
+    const scheduleToUpdate = await this.findOne(id, user);
     this.scheduleRepository.merge(scheduleToUpdate, data);
 
     return await this.scheduleRepository.save(scheduleToUpdate);
   }
 
-  async remove(id: string) {
-    const scheduleToDelete = await this.findOne(id);
+  async remove(id: string, user: User) {
+    const scheduleToDelete = await this.findOne(id, user);
 
     return await this.scheduleRepository.softRemove(scheduleToDelete);
   }
