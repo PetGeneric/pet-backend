@@ -11,11 +11,16 @@ import { RolesGuard } from './core/guards/roles.guard';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { DiscordNotificationModule } from './discord-notification/discord-notification.module';
 import { DiscordNotificationService } from './discord-notification/discord-notification.service';
+import { AuthGuard } from './core/guards/auth.guard';
 
 @Module({
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: RolesGuard, 
