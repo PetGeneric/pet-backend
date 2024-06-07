@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { RolesReference } from '../../../admin/enums/roles.enum';
-import type { User } from './User.entity';
+import type { User } from './user.entity';
 
 @Entity('roles')
 export class Roles {
@@ -19,7 +19,7 @@ export class Roles {
   @Column({ name: 'role_reference', type: 'character varying' })
   roleReference: RolesReference;
 
-  @ManyToMany<User>('User', (User) => User.roles)
+  @ManyToMany<User>('User', (user) => user.roles)
   @JoinTable({
     name: 'user_role_reference',
     joinColumn: {
@@ -31,7 +31,7 @@ export class Roles {
       referencedColumnName: 'id',
     },
   })
-  User: User[];
+  user: User[];
 
   @CreateDateColumn({
     name: 'created_at',
