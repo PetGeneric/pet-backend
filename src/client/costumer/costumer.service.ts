@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Costumer } from '../../database/src/entities/costumer.entity';
 import { DeepPartial, Equal, Repository } from 'typeorm';
+import { User } from 'src/database/src/entities/user.entity';
 
 @Injectable()
 export class CostumerService {
@@ -15,27 +16,32 @@ export class CostumerService {
     return this.costumerRepository.save(costumer);
   }
 
-  async findAll(): Promise<Costumer[]> {
-    return await this.costumerRepository.find();
-  }
-
-  async findOne(id: string) {
-    return await this.costumerRepository.findOne({
+  async findAll(user: User): Promise<Costumer[]> {
+    return await this.costumerRepository.find({
       where: {
-        id: Equal(id),
+        companyId: Equal(user.companyId),
       },
     });
   }
 
-  async update(id: string, data: DeepPartial<Costumer>) {
-    const costumerToUpdate = await this.findOne(id);
+  async findOne(id: string, user: User) {
+    return await this.costumerRepository.findOne({
+      where: {
+        id: Equal(id),
+        companyId: Equal(user.companyId),
+      },
+    });
+  }
+
+  async update(id: string, data: DeepPartial<Costumer>, user: User) {
+    const costumerToUpdate = await this.findOne(id, user);
     this.costumerRepository.merge(costumerToUpdate, data);
 
     return await this.costumerRepository.save(costumerToUpdate);
   }
 
-  async remove(id: string) {
-    const costumerToDelete = await this.findOne(id);
+  async remove(id: string, user: User) {
+    const costumerToDelete = await this.findOne(id, user);
 
     return await this.costumerRepository.softRemove(costumerToDelete);
   }

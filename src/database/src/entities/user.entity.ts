@@ -14,10 +14,10 @@ import {
 import type { Company } from './company.entity';
 import type { Roles } from './roles.entity';
 
-@Index('users_pkey', ['id'], { unique: true })
-@Index('users_email_key', ['email'], { unique: true })
-@Entity('users')
-export class Users {
+@Index('User_pkey', ['id'], { unique: true })
+@Index('User_email_key', ['email'], { unique: true })
+@Entity('User')
+export class User {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
@@ -30,7 +30,7 @@ export class Users {
   @Column('character varying', { name: 'password' })
   password: string;
 
-  @ManyToMany<Roles>('Roles', (roles) => roles.users)
+  @ManyToMany<Roles>('Roles', (roles) => roles.User)
   @JoinTable({
     name: 'user_role_reference',
     joinColumn: {
@@ -47,7 +47,7 @@ export class Users {
   @Column('boolean', { name: 'is_active', default: false })
   isActive: boolean;
 
-  @ManyToOne<Company>('Company', (company) => company.users)
+  @ManyToOne<Company>('Company', (company) => company.User)
   @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
   company: Company;
 
