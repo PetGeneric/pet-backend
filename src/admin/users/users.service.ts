@@ -10,12 +10,12 @@ import { UserRoleReference } from 'src/database/src/entities/user-role-reference
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private UserRepository: Repository<User>,
+    private userRepository: Repository<User>,
   ) {}
 
   async create(data: DeepPartial<User>): Promise<User> {
-    return await this.UserRepository.manager.transaction(async (manager) => {
-      const user = this.UserRepository.create(data);
+    return await this.userRepository.manager.transaction(async (manager) => {
+      const user = this.userRepository.create(data);
 
       const userExists = await this.findByEmail(user.email);
 
@@ -66,7 +66,7 @@ export class UserService {
   }
 
   async update(id: string, data: DeepPartial<User>): Promise<User | undefined> {
-    return await this.UserRepository.manager.transaction(async (manager) => {
+    return await this.userRepository.manager.transaction(async (manager) => {
       const userToUpdate = await manager.findOne(User, {
         where: { id: Equal(id) },
       });
@@ -126,13 +126,13 @@ export class UserService {
   }
 
   async findAll() {
-    return await this.UserRepository.find({
+    return await this.userRepository.find({
       relations: ['roles'],
     });
   }
 
   async findByEmail(email: string) {
-    return await this.UserRepository.findOne({
+    return await this.userRepository.findOne({
       where: {
         email: Equal(email),
       },
@@ -143,7 +143,7 @@ export class UserService {
   }
 
   async findOne(id: string) {
-    return await this.UserRepository.findOneOrFail({
+    return await this.userRepository.findOneOrFail({
       where: {
         id: Equal(id),
       },
@@ -151,28 +151,26 @@ export class UserService {
     });
   }
 
-  async gerUserRoles(id: string) {
-    return await this.UserRepository.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, {
-        where: {
-          id: Equal(id),
-        },
-        relations: {
-          roles: true,
-        },
-      });
-
-      if (!user) {
-        throw new BadRequestException('User not found');
-      }
-
-      return user.roles;
+  async getUserRole(id: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: Equal(id),
+      },
+      relations: {
+        roles: true,
+      },
     });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    return user.roles;
   }
 
   async remove(id: string) {
     const userToDelete = await this.findOne(id.toString());
 
-    return await this.UserRepository.softRemove(userToDelete);
+    return await this.userRepository.softRemove(userToDelete);
   }
 }

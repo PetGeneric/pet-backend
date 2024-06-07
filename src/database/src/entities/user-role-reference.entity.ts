@@ -24,11 +24,11 @@ export class UserRoleReference {
   @RelationId((self: UserRoleReference) => self.roles)
   roleId: string;
 
-  @ManyToOne<User>('User', (User) => User.roles)
+  @ManyToOne<User>('User', (user) => user.roles)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
-  @ManyToOne<Roles>('Roles', (roles) => roles.User)
+  @ManyToOne<Roles>('Roles', (roles) => roles.user)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   roles: Roles;
 }

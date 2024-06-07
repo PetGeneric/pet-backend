@@ -13,11 +13,11 @@ import { Roles } from 'src/database/src/entities/roles.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    private Userervice: UserService,
+    private userService: UserService,
     private jwtService: JwtService,
   ) {}
   async signIn(createAuthDto: CreateAuthDto) {
-    const user = await this.Userervice.findByEmail(createAuthDto.email);
+    const user = await this.userService.findByEmail(createAuthDto.email);
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
@@ -31,7 +31,7 @@ export class AuthService {
       throw new UnauthorizedException('Senha inválida');
     }
 
-    const userRoles = await this.Userervice.gerUserRoles(user.id);
+    const userRoles = await this.userService.getUserRole(user.id);
 
     const token = await this.generateJwtToken(user, userRoles);
 
