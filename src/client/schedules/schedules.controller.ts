@@ -17,8 +17,11 @@ export class SchedulesController {
   constructor(private readonly schedulesService: SchedulesService) {}
 
   @Post()
-  create(@Body() createScheduleDto: CreateScheduleDto) {
-    return this.schedulesService.create(createScheduleDto);
+  create(
+    @CurrentUser() user: User,
+    @Body() createScheduleDto: CreateScheduleDto,
+  ) {
+    return this.schedulesService.create(createScheduleDto, user);
   }
 
   @Get()

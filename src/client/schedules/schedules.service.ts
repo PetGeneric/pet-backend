@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Schedule } from '../../database/src/entities/schedules.entity';
 import { DeepPartial, Equal, Repository } from 'typeorm';
 import { User } from 'src/database/src/entities/user.entity';
-import { PetHistory } from 'src/database/src/entities/pet-history.entity';
 import { PetHistoryService } from '../pet-history/pet-history.service';
 
 @Injectable()
@@ -13,17 +12,27 @@ export class SchedulesService {
     private scheduleRepository: Repository<Schedule>,
     private readonly historyService: PetHistoryService,
   ) {}
-  create(data: DeepPartial<Schedule>) {
-    const schedule = this.scheduleRepository.create(data);
+  async create(data: DeepPartial<Schedule>, user: User) {
+    return await this.scheduleRepository.manager.transaction(
+      async (manager) => {
+        const schedule = this.scheduleRepository.create(data);
+        schedule.company = user.company;
 
-    this.historyService.create({
-      pet: schedule.pet,
-      service: schedule.service,
-      company: schedule.company,
-      schedule: schedule,
-    });
+        const savedSchedule = await manager.save(schedule);
 
-    return this.scheduleRepository.save(schedule);
+        await this.historyService.create(
+          {
+            pet: savedSchedule.pet,
+            service: savedSchedule.service,
+            company: savedSchedule.company,
+            schedule: savedSchedule,
+          },
+          manager,
+        );
+
+        return savedSchedule;
+      },
+    );
   }
 
   async findAll(user: User) {

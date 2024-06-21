@@ -12,14 +12,17 @@ export class PetHistoryService {
     private readonly historyRepository: Repository<PetHistory>,
     private readonly entityManager: EntityManager,
   ) {}
-  async create(createHistoryDto: CreatePetHistoryDto): Promise<PetHistory> {
-    const history = this.historyRepository.create(createHistoryDto);
+  async create(
+    createHistoryDto: CreatePetHistoryDto,
+    manager: EntityManager,
+  ): Promise<PetHistory> {
+    const history = manager.create(PetHistory, createHistoryDto);
 
-    return await this.historyRepository.save(history);
+    return await manager.save(PetHistory, history);
   }
 
   async findAll(user: User): Promise<PetHistory[]> {
-    return await this.findAllHistories(user)
+    return await this.findAllHistories(user);
   }
 
   async findAllHistories(user: User): Promise<PetHistory[]> {
