@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import type { User } from './User.entity';
+import type { User } from './user.entity';
 import type { Roles } from './roles.entity';
 
 @Index('user_role_pk', ['id'], { unique: true })

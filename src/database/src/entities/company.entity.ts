@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import type { Costumer } from './costumer.entity';
 import type { Pet } from './pet.entity';
-import type { User } from './User.entity';
+import type { User } from './user.entity';
 import { Schedule } from './schedules.entity';
 
 @Index('company_pk', ['id'], { unique: true })

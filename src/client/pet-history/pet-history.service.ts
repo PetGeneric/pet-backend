@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePetHistoryDto } from './dto/create-pet-history.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Equal, Repository } from 'typeorm';
-import { User } from 'src/database/src/entities/User.entity';
+import { User } from 'src/database/src/entities/user.entity';
 import { PetHistory } from 'src/database/src/entities/pet-history.entity';
 
 @Injectable()
