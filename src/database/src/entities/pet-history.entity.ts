@@ -50,23 +50,4 @@ export class PetHistory {
   @ManyToOne<Schedule>('Schedule', (schedule) => schedule)
   @JoinColumn({ name: 'schedule_id', referencedColumnName: 'id' })
   schedule: Schedule;
-
-  @CreateDateColumn({
-    name: 'created_at',
-    default: () => 'now()',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-    nullable: true,
-    onUpdate: 'CURRENT TIMESTAMP',
-  })
-  updatedAt: Date;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    nullable: true,
-  })
-  deletedAt: Date;
 }

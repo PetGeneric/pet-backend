@@ -20,13 +20,13 @@ export class DashboardService {
 
   async getDashboardData(user: User): Promise<DashboardData> {
     const totalCostumers = await this.costumerRepository.count({
-      where: { companyId: user.companyId },
+      where: { companyId: user.company.id },
     });
     const totalPets = await this.petRepository.count({
-      where: { companyId: user.companyId },
+      where: { companyId: user.company.id},
     });
     const totalSchedules = await this.scheduleRepository.count({
-      where: { companyId: user.companyId },
+      where: { companyId: user.company.id},
     });
     return {
       totalCostumers,

@@ -27,7 +27,7 @@ export class PetsService {
   async findAll(user: User) {
     return await this.petRepository.find({
       where: {
-        companyId: Equal(user.companyId),
+        companyId: Equal(user.company.id),
       },
     });
   }
@@ -36,7 +36,7 @@ export class PetsService {
     return await this.petRepository.findOne({
       where: {
         id: Equal(id),
-        companyId: Equal(user.companyId),
+        companyId: Equal(user.company.id),
       },
     });
   }

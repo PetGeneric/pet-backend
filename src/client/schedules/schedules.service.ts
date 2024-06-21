@@ -29,7 +29,7 @@ export class SchedulesService {
   async findAll(user: User) {
     return await this.scheduleRepository.find({
       where: {
-        companyId: Equal(user.companyId),
+        companyId: Equal(user.company.id),
       },
     });
   }
@@ -38,7 +38,7 @@ export class SchedulesService {
     return await this.scheduleRepository.findOne({
       where: {
         id: Equal(id),
-        companyId: Equal(user.companyId),
+        companyId: Equal(user.company.id),
       },
     });
   }

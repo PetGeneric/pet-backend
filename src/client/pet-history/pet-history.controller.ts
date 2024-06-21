@@ -1,11 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
 } from '@nestjs/common';
 import { PetHistoryService } from './pet-history.service';
 import { CurrentUser } from 'src/core/decorators/current-user.decorator';
@@ -23,7 +18,7 @@ export class PetHistoryController {
     RolesReference.ADMIN,
   )
   @Get()
-  findAll(@CurrentUser() user: User) {
+  async findAll(@CurrentUser() user: User) {
     return this.petHistoryService.findAll(user);
   }
 }
