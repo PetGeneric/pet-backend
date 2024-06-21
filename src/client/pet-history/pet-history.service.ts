@@ -10,7 +10,6 @@ export class PetHistoryService {
   constructor(
     @InjectRepository(PetHistory)
     private readonly historyRepository: Repository<PetHistory>,
-    private readonly entityManager: EntityManager,
   ) {}
   async create(
     createHistoryDto: CreatePetHistoryDto,
@@ -22,16 +21,18 @@ export class PetHistoryService {
   }
 
   async findAll(user: User): Promise<PetHistory[]> {
-    return await this.findAllHistories(user);
-  }
-
-  async findAllHistories(user: User): Promise<PetHistory[]> {
-    const qb = this.entityManager.createQueryBuilder(PetHistory, 'history');
-    qb.leftJoinAndSelect('history.pet', 'pet');
-    qb.leftJoinAndSelect('history.company', 'company');
-    qb.leftJoinAndSelect('history.service', 'service');
-    qb.leftJoinAndSelect('history.schedule', 'schedule');
-    qb.where('company.id = :companyId', { companyId: user.company.id });
-    return await qb.getMany();
+    return await this.historyRepository.find({
+      where: {
+        company: {
+          id: Equal(user.company.id),
+        }
+      },
+      relations: {
+        pet: true,
+        company: true,
+        service: true,
+        schedule: true,
+      },
+    });
   }
 }
