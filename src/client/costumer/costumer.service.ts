@@ -19,7 +19,7 @@ export class CostumerService {
   async findAll(user: User): Promise<Costumer[]> {
     return await this.costumerRepository.find({
       where: {
-        companyId: Equal(user.companyId),
+        companyId: Equal(user.company.id),
       },
     });
   }
@@ -28,7 +28,7 @@ export class CostumerService {
     return await this.costumerRepository.findOne({
       where: {
         id: Equal(id),
-        companyId: Equal(user.companyId),
+        companyId: Equal(user.company.id),
       },
     });
   }

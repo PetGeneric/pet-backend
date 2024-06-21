@@ -9,6 +9,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 import type { Company } from './company.entity';
@@ -30,6 +31,10 @@ export class User {
   @Column('character varying', { name: 'password' })
   password: string;
 
+  @Column({ name: 'company_id' })
+  @RelationId((self: User) => self.company)
+  companyId: string;
+
   @ManyToMany<Roles>('Roles', (roles) => roles.user)
   @JoinTable({
     name: 'user_role_reference',
@@ -47,12 +52,11 @@ export class User {
   @Column('boolean', { name: 'is_active', default: false })
   isActive: boolean;
 
-  @ManyToOne<Company>('Company', (company) => company.User)
+  @ManyToOne<Company>('Company', (company) => company.User, {
+    persistence: false,
+  })
   @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
   company: Company;
-
-  @Column({ name: 'company_id' })
-  companyId: string;
 
   @CreateDateColumn({ name: 'created_at', default: 'now()' })
   createdAt: Date;
