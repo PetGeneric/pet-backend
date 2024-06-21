@@ -1,10 +1,7 @@
-import {
-  Controller,
-  Get,
-} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { PetHistoryService } from './pet-history.service';
 import { CurrentUser } from 'src/core/decorators/current-user.decorator';
-import { User } from 'src/database/src/entities/User.entity';
+import { User } from 'src/database/src/entities/user.entity';
 import { RolesReference } from 'src/admin/enums/roles.enum';
 import { RolesGuard } from 'src/core/decorators/role-guard.decorator';
 

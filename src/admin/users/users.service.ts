@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../database/src/entities/User.entity';
+import { User } from '../../database/src/entities/user.entity';
 import { DeepPartial, EntityManager, Equal, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Roles } from 'src/database/src/entities/roles.entity';
