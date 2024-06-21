@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeepPartial, Equal } from 'typeorm';
-import { Company } from '../../database/src/typeorm/entities/company.entity';
 import { Status } from 'src/core/status.enum';
+import { Company } from 'src/database/src/entities/company.entity';
+import { Repository, DeepPartial, Equal } from 'typeorm';
 @Injectable()
 export class CompanyService {
   constructor(

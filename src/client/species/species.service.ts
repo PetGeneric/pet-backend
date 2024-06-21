@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Species } from "../../database/src/typeorm/entities/specie.entity";
-import { DeepPartial, Equal, Repository } from "typeorm";
-import { InjectRepository } from "@nestjs/typeorm";
+import { Species } from '../../database/src/entities/specie.entity';
+import { DeepPartial, Equal, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class SpeciesService {
-
   constructor(
     @InjectRepository(Species)
     private readonly repository: Repository<Species>,
-  ) {
-  }
+  ) {}
 
   async create(data: DeepPartial<Species>): Promise<Species> {
     const species = this.repository.create(data);
@@ -42,5 +40,4 @@ export class SpeciesService {
 
     await this.repository.softRemove(species);
   }
-
 }

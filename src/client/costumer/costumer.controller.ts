@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CostumerService } from './costumer.service';
 import { CreateCostumerDto } from './dto/create-costumer.dto';
 import { UpdateCostumerDto } from './dto/update-costumer.dto';
+import { CurrentUser } from 'src/core/decorators/current-user.decorator';
+import { User } from 'src/database/src/entities/user.entity';
 
 @Controller('client/costumer')
 export class CostumerController {
@@ -13,22 +23,26 @@ export class CostumerController {
   }
 
   @Get()
-  findAll() {
-    return this.costumerService.findAll();
+  findAll(@CurrentUser() user: User) {
+    return this.costumerService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.costumerService.findOne(id);
+  findOne(@Param('id') id: string, @CurrentUser() user: User) {
+    return this.costumerService.findOne(id, user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCostumerDto: UpdateCostumerDto) {
-    return this.costumerService.update(id, updateCostumerDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateCostumerDto: UpdateCostumerDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.costumerService.update(id, updateCostumerDto, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.costumerService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() user: User) {
+    return this.costumerService.remove(id, user);
   }
 }

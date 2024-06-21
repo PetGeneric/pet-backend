@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import type { Users } from "./users.entity";
+import { User } from './user.entity';
 
 @Index('employee_pk', ['id'], { unique: true })
 @Index('employee_id_uindex', ['id'], { unique: true })
@@ -18,15 +18,20 @@ export class Employee {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
-  @Column({ type: 'character varying', name:'first_name', length: 255 })
+  @Column({ type: 'character varying', name: 'first_name', length: 255 })
   first_name: string;
 
-  @Column({ type: 'character varying', name:'last_name', nullable:true, length: 255 })
+  @Column({
+    type: 'character varying',
+    name: 'last_name',
+    nullable: true,
+    length: 255,
+  })
   last_name: string;
 
-  @ManyToOne<Users>('Users',(users) => users.id)
+  @ManyToOne<User>('User', (User) => User.id)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: Users;
+  user: User;
 
   @Column({ name: 'user_id' })
   user_id: string;
@@ -42,10 +47,11 @@ export class Employee {
     nullable: true,
     onUpdate: 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date
+  updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    nullable: true})
-     deletedAt: Date
+    nullable: true,
+  })
+  deletedAt: Date;
 }

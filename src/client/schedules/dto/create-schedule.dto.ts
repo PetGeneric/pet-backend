@@ -2,13 +2,14 @@ import {
   IsDate,
   IsDateString,
   IsDefined,
-  IsNotEmpty, IsOptional,
-  IsString
-} from "class-validator";
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { ScheduleStatus } from '../schedule-status.enum';
 import { Type } from 'class-transformer';
-import { Service } from '../../../database/src/typeorm/entities/service.entity';
-import { Pet } from '../../../database/src/typeorm/entities/pet.entity';
+import { Service } from '../../../database/src/entities/service.entity';
+import { Pet } from '../../../database/src/entities/pet.entity';
 
 export class CreateScheduleDto {
   @IsString()
