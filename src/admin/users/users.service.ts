@@ -25,7 +25,7 @@ export class UsersService {
 
       user.password = await bcrypt.hash(user.password, 10);
 
-      const insertedUser = await manager.insert(Users, user)
+      const insertedUser = await manager.insert(Users, user);
 
       if (data.roles && data.roles.length > 0) {
         await this.createRoleReferences(
@@ -139,9 +139,9 @@ export class UsersService {
       where: {
         email: Equal(email),
       },
-      relations:{
-        company: true
-      }
+      relations: {
+        company: true,
+      },
     });
   }
 
@@ -171,7 +171,6 @@ export class UsersService {
 
       return user.roles;
     });
-
   }
 
   async remove(id: string) {
