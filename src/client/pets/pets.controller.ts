@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { CurrentUser } from 'src/core/decorators/current-user.decorator';
+import { User } from 'src/database/src/entities/user.entity';
 
 @Controller('client/pets')
 export class PetsController {
@@ -13,22 +15,26 @@ export class PetsController {
   }
 
   @Get()
-  findAll() {
-    return this.petsService.findAll();
+  findAll(@CurrentUser() user: User) {
+    return this.petsService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.petsService.findOne(id);
+  findOne(@Param('id') id: string, @CurrentUser() user: User) {
+    return this.petsService.findOne(id, user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
-    return this.petsService.update(id, updatePetDto);
+  update(
+    @Param('id') id: string,
+    @Body() updatePetDto: UpdatePetDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.petsService.update(id, updatePetDto, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.petsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() user: User) {
+    return this.petsService.remove(id, user);
   }
 }

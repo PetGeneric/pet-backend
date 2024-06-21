@@ -1,13 +1,13 @@
-import { IsDefined, IsEmail, IsOptional, IsString } from "class-validator";
-import { Type } from "class-transformer";
-import { Company } from "../../../database/src/typeorm/entities/company.entity";
+import { IsDefined, IsEmail, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { Company } from '../../../database/src/entities/company.entity';
 
 export class CreateEmployeeDto {
-  @IsString({ message: 'Nome inválido'})
+  @IsString({ message: 'Nome inválido' })
   first_name: string;
 
   @IsOptional()
-  @IsString({ message: 'Sobrenome inválido'})
+  @IsString({ message: 'Sobrenome inválido' })
   last_name: string;
 
   @IsEmail({}, { message: 'Email inválido' })

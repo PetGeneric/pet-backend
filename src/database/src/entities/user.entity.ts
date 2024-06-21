@@ -9,6 +9,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 import type { Company } from './company.entity';
@@ -17,7 +18,7 @@ import type { Roles } from './roles.entity';
 @Index('users_pkey', ['id'], { unique: true })
 @Index('users_email_key', ['email'], { unique: true })
 @Entity('users')
-export class Users {
+export class User {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
@@ -30,7 +31,11 @@ export class Users {
   @Column('character varying', { name: 'password' })
   password: string;
 
-  @ManyToMany<Roles>('Roles', (roles) => roles.users)
+  @Column({ name: 'company_id' })
+  @RelationId((self: User) => self.company)
+  companyId: string;
+
+  @ManyToMany<Roles>('Roles', (roles) => roles.user)
   @JoinTable({
     name: 'user_role_reference',
     joinColumn: {
@@ -47,12 +52,11 @@ export class Users {
   @Column('boolean', { name: 'is_active', default: false })
   isActive: boolean;
 
-  @ManyToOne<Company>('Company', (company) => company.users)
+  @ManyToOne<Company>('Company', (company) => company.User, {
+    persistence: false,
+  })
   @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
   company: Company;
-
-  @Column({ name: 'company_id' })
-  companyId: string;
 
   @CreateDateColumn({ name: 'created_at', default: 'now()' })
   createdAt: Date;

@@ -16,6 +16,7 @@ import type { Schedule } from './schedules.entity';
 import type { Species } from './specie.entity';
 import type { Costumer } from './costumer.entity';
 import type { Company } from './company.entity';
+import type { PetHistory } from './pet-history.entity';
 
 @Index('pet_pk', ['id'], { unique: true })
 @Index('pet_id_uindex', ['id'], { unique: true })
@@ -69,8 +70,11 @@ export class Pet {
   @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
   company: Company;
 
+  @OneToMany<PetHistory>('PetHistory', (history) => history.pet)
+  histories: PetHistory[];
+
   @Column({ name: 'company_id' })
-  company_id: string;
+  companyId: string;
 
   @CreateDateColumn({
     name: 'created_at',

@@ -7,8 +7,8 @@ import {
   IsStrongPassword,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Company } from '../../../database/src/typeorm/entities/company.entity';
-import { Roles } from '../../../database/src/typeorm/entities/roles.entity';
+import { Company } from '../../../database/src/entities/company.entity';
+import { Roles } from '../../../database/src/entities/roles.entity';
 
 export class CreateUserDto {
   @IsString({ message: 'O campo nome não pode ser vazio' })
