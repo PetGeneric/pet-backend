@@ -52,7 +52,7 @@ export class User {
   @Column('boolean', { name: 'is_active', default: false })
   isActive: boolean;
 
-  @ManyToOne<Company>('Company', (company) => company.User, {
+  @ManyToOne<Company>('Company', (company) => company.user, {
     persistence: false,
   })
   @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })

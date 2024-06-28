@@ -6,6 +6,7 @@ import { Schedule } from 'src/database/src/entities/schedules.entity';
 import { Repository } from 'typeorm';
 import { DashboardData } from './interface/dashboard-data.interface';
 import { User } from 'src/database/src/entities/user.entity';
+import { ScheduleStatus } from 'src/client/schedules/schedule-status.enum';
 
 @Injectable()
 export class DashboardService {
@@ -23,10 +24,10 @@ export class DashboardService {
       where: { companyId: user.company.id },
     });
     const totalPets = await this.petRepository.count({
-      where: { companyId: user.company.id},
+      where: { companyId: user.company.id },
     });
     const totalSchedules = await this.scheduleRepository.count({
-      where: { companyId: user.company.id},
+      where: { companyId: user.company.id, status: ScheduleStatus.PENDING },
     });
     return {
       totalCostumers,

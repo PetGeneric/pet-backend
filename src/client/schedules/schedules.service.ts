@@ -40,6 +40,10 @@ export class SchedulesService {
       where: {
         companyId: Equal(user.company.id),
       },
+      relations: {
+        pet: true,
+        service: true,
+      },
     });
   }
 

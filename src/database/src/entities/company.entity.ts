@@ -51,7 +51,7 @@ export class Company {
   @OneToMany<User>('User', (User) => User.company, {
     persistence: false,
   })
-  User: User[];
+  user: User[];
 
   @OneToMany<Pet>('Pet', (pet) => pet.company, { persistence: false })
   pets: Pet[];

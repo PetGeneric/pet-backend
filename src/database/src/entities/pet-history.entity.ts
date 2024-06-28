@@ -1,13 +1,10 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import type { Pet } from './pet.entity';
 import type { Company } from './company.entity';
