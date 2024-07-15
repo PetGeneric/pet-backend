@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 
     const { route } = request;
 
-    if (route.path === '/auth/signin') {
+    if (route.path === '/auth/signin' || route.path === '/auth/validate') {
       return true;
     }
 
