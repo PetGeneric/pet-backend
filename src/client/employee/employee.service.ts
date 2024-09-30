@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from '../../database/src/entities/employee.entity';
 import { DeepPartial, Equal, Repository } from 'typeorm';

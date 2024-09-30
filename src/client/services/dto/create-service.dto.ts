@@ -1,4 +1,4 @@
-import {  IsNumberString, IsOptional, IsString } from "class-validator";
+import {  IsHexColor, IsNumberString, IsOptional, IsString } from "class-validator";
 
 export class CreateServiceDto {
   @IsString({ message: 'O serviço deve ter um nome' })
@@ -7,6 +7,9 @@ export class CreateServiceDto {
   @IsOptional()
   @IsString()
   description: string;
+
+  @IsHexColor({ message: 'A cor deve ser um hexadecimal' })
+  color: string;
 
   @IsNumberString(
     { no_symbols: true },

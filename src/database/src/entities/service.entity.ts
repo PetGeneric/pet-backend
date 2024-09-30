@@ -28,6 +28,9 @@ export class Service {
   @OneToMany<Schedule>('Schedule', (schedule) => schedule.service)
   schedules: Schedule[];
 
+  @Column({ name: 'color', type: 'character varying', length: 255 })
+  color: string;
+
   @CreateDateColumn({ name: 'created_at', default: () => 'now()' })
   createdAt: Date;
 

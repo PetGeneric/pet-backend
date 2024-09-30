@@ -12,7 +12,7 @@ export class SchedulesService {
     private scheduleRepository: Repository<Schedule>,
     private readonly historyService: PetHistoryService,
   ) {}
-  async create(data: DeepPartial<Schedule>, user: User) {
+  async create(data: DeepPartial<Schedule>, user: User):Promise<Schedule> {
     return await this.scheduleRepository.manager.transaction(
       async (manager) => {
         const schedule = this.scheduleRepository.create(data);
@@ -56,14 +56,14 @@ export class SchedulesService {
     });
   }
 
-  async update(id: string, data: DeepPartial<Schedule>, user: User) {
+  async update(id: string, data: DeepPartial<Schedule>, user: User):Promise<Schedule> {
     const scheduleToUpdate = await this.findOne(id, user);
     this.scheduleRepository.merge(scheduleToUpdate, data);
 
     return await this.scheduleRepository.save(scheduleToUpdate);
   }
 
-  async remove(id: string, user: User) {
+  async remove(id: string, user: User):Promise<Schedule> {
     const scheduleToDelete = await this.findOne(id, user);
 
     return await this.scheduleRepository.softRemove(scheduleToDelete);

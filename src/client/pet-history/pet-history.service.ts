@@ -35,4 +35,14 @@ export class PetHistoryService {
       },
     });
   }
+
+
+  async remove(id: string, user: User): Promise<void> {
+    await this.historyRepository.delete({
+      id: Equal(id),
+      company: {
+        id: Equal(user.company.id),
+      },
+    });
+  }
 }

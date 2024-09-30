@@ -12,6 +12,7 @@ import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { CurrentUser } from 'src/core/decorators/current-user.decorator';
 import { User } from 'src/database/src/entities/user.entity';
+import { Schedule } from 'src/database/src/entities/schedules.entity';
 @Controller('client/schedules')
 export class SchedulesController {
   constructor(private readonly schedulesService: SchedulesService) {}
@@ -20,7 +21,7 @@ export class SchedulesController {
   create(
     @CurrentUser() user: User,
     @Body() createScheduleDto: CreateScheduleDto,
-  ) {
+  ):Promise<Schedule>  {
     return this.schedulesService.create(createScheduleDto, user);
   }
 
